@@ -9,9 +9,18 @@ readme = "README.md"
 requires-python = ">=3.11,<4.0"
 dependencies = [
     "langchain (>=0.3.25,<0.4.0)",
-    "ollama (>=0.4.9,<0.5.0)"
+    "ollama (>=0.4.9,<0.5.0)",
+    "langchain-community (>=0.3.24,<0.4.0)",
+    "python-dotenv (>=1.1.0,<2.0.0)",
+    "openai (>=1.82.0,<2.0.0)"
 ]
 
+[tool.poetry]
+packages = [{ include = "app" }]
+
+
+[tool.poetry.scripts]
+comment-code = "app.cli:main"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
