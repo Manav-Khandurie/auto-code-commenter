@@ -1,9 +1,10 @@
+# app/utils/file_handler.py
 import os
 
-def walk_py_files(src_folder):
+def walk_code_files(src_folder):
     for root, _, files in os.walk(src_folder):
         for file in files:
-            if file.endswith(".py"):
+            if file.endswith(".py") or file.endswith(".sql"):
                 yield os.path.join(root, file)
 
 def read_code(filepath):

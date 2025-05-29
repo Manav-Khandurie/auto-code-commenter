@@ -2,16 +2,15 @@ import os
 import json
 
 class Book:
-    """Represents a book in the library system."""
+    """Represents a book in the library system.
+
+    Attributes:
+        book_id (str): Unique identifier for the book
+        title (str): Title of the book
+        author (str): Author of the book
+        copies (int): Number of available copies
+    """
     def __init__(self, book_id, title, author, copies):
-        """Initialize a Book instance.
-        
-        Args:
-            book_id: Unique identifier for the book
-            title: Title of the book
-            author: Author of the book
-            copies: Number of available copies
-        """
         self.book_id = book_id
         self.title = title
         self.author = author
@@ -27,18 +26,18 @@ class Book:
         }
 
 class Library:
-    """Manages the library's book collection and operations."""
+    """Manages the library's book collection and operations.
+
+    Attributes:
+        db_file (str): Path to JSON database file
+        books (list): List of Book objects in the library
+    """
     def __init__(self, db_file='library_db.json'):
-        """Initialize the Library with a JSON database file.
-        
-        Args:
-            db_file: Path to JSON file storing book data (default: 'library_db.json')
-        """
         self.db_file = db_file
         self.books = self.load_books()
 
     def load_books(self):
-        """Load books from JSON file into memory."""
+        """Load books from JSON database file. Creates empty file if none exists."""
         if not os.path.exists(self.db_file):
             return []
         with open(self.db_file, 'r') as file:
@@ -46,15 +45,15 @@ class Library:
             return [Book(**book) for book in data]
 
     def save_books(self):
-        """Save current book collection to JSON file."""
+        """Save current book collection to JSON database file."""
         with open(self.db_file, 'w') as file:
             json.dump([book.to_dict() for book in self.books], file, indent=4)
 
     def add_book(self, book):
-        """Add a new book or update copies if book exists.
-        
+        """Add a new book or update copies if book already exists.
+
         Args:
-            book: Book object to add/update
+            book (Book): Book object to add or update
         """
         for b in self.books:
             if b.book_id == book.book_id:
@@ -67,10 +66,10 @@ class Library:
         print(f"Added new book: {book.title}")
 
     def remove_book(self, book_id):
-        """Remove a book from the library by ID.
-        
+        """Remove a book from the library by its ID.
+
         Args:
-            book_id: ID of book to remove
+            book_id (str): ID of the book to remove
         """
         for b in self.books:
             if b.book_id == book_id:
@@ -81,7 +80,7 @@ class Library:
         print("Book ID not found.")
 
     def list_books(self):
-        """Display all books in the library."""
+        """Display all books in the library with their details."""
         if not self.books:
             print("No books in the library.")
             return
@@ -90,10 +89,10 @@ class Library:
             print(f"{b.book_id} | {b.title} by {b.author} - {b.copies} copies")
 
     def borrow_book(self, book_id):
-        """Borrow a book by decreasing its copy count.
-        
+        """Check out a book if copies are available.
+
         Args:
-            book_id: ID of book to borrow
+            book_id (str): ID of the book to borrow
         """
         for b in self.books:
             if b.book_id == book_id:
@@ -108,10 +107,10 @@ class Library:
         print("Book ID not found.")
 
     def return_book(self, book_id):
-        """Return a book by increasing its copy count.
-        
+        """Return a borrowed book to the library.
+
         Args:
-            book_id: ID of book being returned
+            book_id (str): ID of the book to return
         """
         for b in self.books:
             if b.book_id == book_id:
