@@ -23,7 +23,8 @@ class CodeCommentAgent:
             {code}
 
             Return the updated code now — as plain Python source code only.
-            Remember ,return the full code.
+            REMEMBER IT IS NOT YOUR JOB TO FIX ANYTHING IN CODE EVER, ONLY COMMENTS.
+            Remember ,return the full code & that if there is no python code return blank AND NOTHING ELSE.
         """
 
         response = self.llm.generate(prompt)
@@ -46,3 +47,11 @@ class CodeCommentAgent:
         
         response = self.llm.generate(prompt)
         return response
+    
+    def generate_comment_for_ipynb(self, nb_node) -> dict:
+        modified_nb = nb_node.copy()
+        for cell in modified_nb.cells:
+            if cell.cell_type == 'code' and cell.source.strip():  # Only process non-empty code cells
+                commented_code = self.generate_comment_for_python(cell.source)
+                cell.source = commented_code
+        return modified_nb
