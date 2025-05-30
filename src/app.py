@@ -3,7 +3,7 @@ import json
 
 class Book:
     """Represents a book in the library system.
-
+    
     Attributes:
         book_id (str): Unique identifier for the book
         title (str): Title of the book
@@ -27,7 +27,7 @@ class Book:
 
 class Library:
     """Manages the library's book collection and operations.
-
+    
     Attributes:
         db_file (str): Path to JSON database file
         books (list): List of Book objects in the library
@@ -50,11 +50,7 @@ class Library:
             json.dump([book.to_dict() for book in self.books], file, indent=4)
 
     def add_book(self, book):
-        """Add a new book or update copies if book already exists.
-
-        Args:
-            book (Book): Book object to add or update
-        """
+        """Add a new book or update copies if book already exists."""
         for b in self.books:
             if b.book_id == book.book_id:
                 b.copies += book.copies
@@ -66,11 +62,7 @@ class Library:
         print(f"Added new book: {book.title}")
 
     def remove_book(self, book_id):
-        """Remove a book from the library by its ID.
-
-        Args:
-            book_id (str): ID of the book to remove
-        """
+        """Remove a book from the library by its ID."""
         for b in self.books:
             if b.book_id == book_id:
                 self.books.remove(b)
@@ -80,7 +72,7 @@ class Library:
         print("Book ID not found.")
 
     def list_books(self):
-        """Display all books in the library with their details."""
+        """Display all books in the library."""
         if not self.books:
             print("No books in the library.")
             return
@@ -89,11 +81,7 @@ class Library:
             print(f"{b.book_id} | {b.title} by {b.author} - {b.copies} copies")
 
     def borrow_book(self, book_id):
-        """Check out a book if copies are available.
-
-        Args:
-            book_id (str): ID of the book to borrow
-        """
+        """Borrow a book by decreasing its available copies."""
         for b in self.books:
             if b.book_id == book_id:
                 if b.copies > 0:
@@ -107,11 +95,7 @@ class Library:
         print("Book ID not found.")
 
     def return_book(self, book_id):
-        """Return a borrowed book to the library.
-
-        Args:
-            book_id (str): ID of the book to return
-        """
+        """Return a book by increasing its available copies."""
         for b in self.books:
             if b.book_id == book_id:
                 b.copies += 1

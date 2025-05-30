@@ -1,21 +1,42 @@
+# app/core/models.py
 import os
-from langchain.chat_models import ChatOpenAI
-from dotenv import load_dotenv
-load_dotenv()
+from app.core.models_openai import OpenAIModel
+from app.core.models_deepseek import DeepSeekModel
+# Add imports for other provider model wrappers here
 
-class LLMBase:
-    def generate(self, prompt: str) -> str:
-        raise NotImplementedError
+def get_model_instance(config: dict):
+    provider_cfg = config.get("provider", {})
+    provider_type = provider_cfg.get("type")
 
-class DeepSeekModel(LLMBase):
-    def __init__(self, model_name: str = "deepseek-chat"):
-        self.llm = ChatOpenAI(
-            model_name=model_name,
-            openai_api_base="https://api.deepseek.com/v1",
-            openai_api_key=os.environ["DEEPSEEK_API_KEY"],
-            temperature=0,
+    if provider_type == "openai":
+        return OpenAIModel(
+            model_name=config.get("model_name"),
+            temperature=config.get("temperature", 0),
+            max_tokens=config.get("max_tokens", 1024),
+            credentials=config.get("credentials", {}),
+            additional_params=config.get("additional_params", {}),
         )
-
-    def generate(self, prompt: str) -> str:
-        response = self.llm.predict(prompt)
-        return response
+    elif provider_type == "deepseek":
+        return DeepSeekModel(
+            model_name=config.get("model_name"),
+            temperature=config.get("temperature", 0),
+            max_tokens=config.get("max_tokens", 1024),
+            credentials=config.get("credentials", {}),
+        )
+    elif provider_type == "aws_bedrock":
+        # Return AwsBedrockModel(...)
+        pass
+    elif provider_type == "huggingface":
+        # Return HuggingFaceModel(...)
+        pass
+    elif provider_type == "google_gemini":
+        # Return GoogleGeminiModel(...)
+        pass
+    elif provider_type == "groq":
+        # Return GroqModel(...)
+        pass
+    elif provider_type == "custom":
+        # Return CustomModel(...)
+        pass
+    else:
+        raise ValueError(f"Unsupported provider type: {provider_type}")

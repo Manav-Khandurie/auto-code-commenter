@@ -23,12 +23,10 @@ class CodeCommentAgent:
             {code}
 
             Return the updated code now — as plain Python source code only.
+            Remember ,return the full code.
         """
 
         response = self.llm.generate(prompt)
-        print("----- begin original response -----")
-        print(response)
-        print("-----  end original response  ------")
         return response
 
     def generate_comment_for_sql(self, code: str) -> str:
@@ -47,7 +45,4 @@ class CodeCommentAgent:
         """
         
         response = self.llm.generate(prompt)
-        print("----- begin original response -----")
-        print(response)
-        print("-----  end original response  ------")
         return response
