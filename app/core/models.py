@@ -2,6 +2,8 @@
 import os
 from app.core.models_openai import OpenAIModel
 from app.core.models_deepseek import DeepSeekModel
+from app.core.models_bedrock import get_bedrock_model
+
 # Add imports for other provider model wrappers here
 
 def get_model_instance(config: dict):
@@ -12,7 +14,6 @@ def get_model_instance(config: dict):
         return OpenAIModel(
             model_name=config.get("model_name"),
             temperature=config.get("temperature", 0),
-            max_tokens=config.get("max_tokens", 1024),
             credentials=config.get("credentials", {}),
             additional_params=config.get("additional_params", {}),
         )
@@ -20,12 +21,10 @@ def get_model_instance(config: dict):
         return DeepSeekModel(
             model_name=config.get("model_name"),
             temperature=config.get("temperature", 0),
-            max_tokens=config.get("max_tokens", 1024),
             credentials=config.get("credentials", {}),
         )
-    elif provider_type == "aws_bedrock":
-        # Return AwsBedrockModel(...)
-        pass
+    elif provider_type == "bedrock":
+        return get_bedrock_model(config)
     elif provider_type == "huggingface":
         # Return HuggingFaceModel(...)
         pass

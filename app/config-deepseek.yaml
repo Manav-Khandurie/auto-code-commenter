@@ -1,0 +1,7 @@
+model:
+  provider:
+    type: deepseek
+  model_name: deepseek-chat
+  credentials:
+    api_key: ${DEEPSEEK_API_KEY}
+    api_base: https://api.deepseek.com/v1

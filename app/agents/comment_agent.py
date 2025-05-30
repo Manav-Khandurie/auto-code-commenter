@@ -15,7 +15,7 @@ class CodeCommentAgent:
             - Proper docstrings for all relevant functions, classes, and modules
             - Helpful, non-redundant inline comments only where it adds value
             - No extra explanations
-            - No markdown formatting (e.g. no triple backticks)
+            - No markdown formatting (e.g. no triple backticks,special symbols/markdowns etc)
             - No surrounding text — just the complete updated code
 
             Here is the code:
@@ -24,7 +24,10 @@ class CodeCommentAgent:
 
             Return the updated code now — as plain Python source code only.
             REMEMBER IT IS NOT YOUR JOB TO FIX ANYTHING IN CODE EVER, ONLY COMMENTS.
+            RETURN THE FULL CODE. NO MOARKDOWN NOTHING , JUST PLAIN TEXT.
             Remember ,return the full code & that if there is no python code return blank AND NOTHING ELSE.
+            Return only the complete updated Python source code.
+            Preserve all original code and fix formatting if needs be.
         """
 
         response = self.llm.generate(prompt)
