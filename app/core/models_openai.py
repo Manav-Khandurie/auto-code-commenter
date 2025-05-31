@@ -1,6 +1,6 @@
 # app/core/models_openai.py
 import os
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 
 class OpenAIModel:
     def __init__(self, model_name, temperature=0, max_tokens=1024, credentials=None, additional_params=None):
