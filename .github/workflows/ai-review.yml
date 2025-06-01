@@ -12,7 +12,7 @@ jobs:
       - name: Run AI Code Review Agent
         uses: Manav-Khandurie/agents/code-review-agent@code-review-agent-v1
         with:
-          config-path: "ai-review.yaml"
+          config-path: "./ai-review.yaml"
           score-threshold: 85
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
