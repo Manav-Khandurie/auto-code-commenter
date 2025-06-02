@@ -24,3 +24,9 @@ jobs:
       - name: Debug container contents
         run: |
           ls -la 
+      
+      - name: Upload code review result as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-review-result
+          path: code_review_result.json
