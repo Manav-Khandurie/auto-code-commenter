@@ -14,7 +14,7 @@ jobs:
           ls -la 
           
       - name: Run AI Code Review Agent
-        uses: Manav-Khandurie/agents/code-review-agent@main  #LATEST VERSION with tag
+        uses: Manav-Khandurie/agents/code-review-agent@code-review-agent-v1.0.3  #LATEST VERSION with tag
         with:
           config-path: "./ai-review.yaml"
           score-threshold: 85
