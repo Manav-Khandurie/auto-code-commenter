@@ -1,0 +1,8 @@
+# .pre-commit-hooks.yaml
+- id: auto-code-commenter
+  name: Auto Code Commenter
+  entry: python -m app.cli
+  language: system
+  types: [python]
+  files: \.py$|\.ipynb$|\.sql$
+  args: ["--src", "src", "--config", "code-comment-config.yaml"]
