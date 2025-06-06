@@ -31,10 +31,10 @@ def factorial(n):
     return n * factorial(n - 1)
 
 def draw_card():
-    """Draw a random playing card from a standard 52-card deck.
+    """Draw a random card from a standard 52-card deck.
     
     Returns:
-        str: String representation of the drawn card (e.g. 'Queen of Hearts')
+        str: String representation of the drawn card (e.g. "Ace of Spades")
     """
     ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
     suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
@@ -45,22 +45,22 @@ def draw_card():
     return f"{rank} of {suit}"
 
 def calculate_pi(terms=1000):
-    """Estimate the value of π using the Leibniz formula.
+    """Estimate the value of pi using the Leibniz formula.
     
     Args:
         terms (int): Number of terms to use in the approximation (default 1000)
     
     Returns:
-        float: Approximation of π
+        float: Approximation of pi
     """
     pi_estimate = 0
     for i in range(terms):
-        # Leibniz formula for π: alternating series of odd denominators
+        # Leibniz formula for pi: alternating series of odd denominators
         pi_estimate += ((-1) ** i) / (2 * i + 1)
     return 4 * pi_estimate
 
 def simulate_game():
-    """Simulate a game that rolls dice, calculates factorial, draws card, and estimates π.
+    """Simulate a game that rolls dice, calculates factorial, draws card, and estimates pi.
     
     Prints results of all operations to console.
     """
