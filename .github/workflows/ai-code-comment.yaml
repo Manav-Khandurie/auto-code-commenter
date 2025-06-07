@@ -22,7 +22,9 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
-        persist-credentials: false
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Run Code Comment Bot
         uses: Manav-Khandurie/auto-code-commenter@main
