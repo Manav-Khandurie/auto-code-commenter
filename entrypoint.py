@@ -20,6 +20,11 @@ def run():
     
     config_arg = sys.argv[1] if len(sys.argv) > 1 else None
     src_arg = sys.argv[2] if len(sys.argv) > 2 else "."
+    gh = Github(GITHUB_TOKEN)
+
+    if pr_exists(gh, GITHUB_REPOSITORY, BRANCH_NAME):
+        print("✅ PR already exists. Skipping PR creation.")
+        exit(0)
 
     # Safe Git
     subprocess.run(["git", "config", "--global", "--add", "safe.directory", os.getcwd()], check=True)
@@ -34,7 +39,6 @@ def run():
     repo_url = f"https://x-access-token:{GITHUB_TOKEN}@github.com/{GITHUB_REPOSITORY}.git"
     repo.remotes.origin.set_url(repo_url)
 
-    gh = Github(GITHUB_TOKEN)
 
     # Run your bot logic
     subprocess.run([
@@ -48,17 +52,16 @@ def run():
     repo.index.commit("🤖 Auto-commented code")
     repo.remotes.origin.push(refspec=f"{BRANCH_NAME}:{BRANCH_NAME}", force=True)
 
-    if not pr_exists(gh, GITHUB_REPOSITORY, BRANCH_NAME):
-        gh_repo = gh.get_repo(GITHUB_REPOSITORY)
-        gh_repo.create_pull(
-            title=PR_TITLE,
-            body=PR_BODY,
-            head=BRANCH_NAME,
-            base="main"
-        )
-        print("✅ Pull request created.")
-    else:
-        print("✅ PR already exists. Skipping PR creation.")
+
+    gh_repo = gh.get_repo(GITHUB_REPOSITORY)
+    gh_repo.create_pull(
+        title=PR_TITLE,
+        body=PR_BODY,
+        head=BRANCH_NAME,
+        base="main"
+    )
+    print("✅ Pull request created.")
 
 if __name__ == "__main__":
+    
     run()

@@ -5,7 +5,7 @@ def roll_dice(sides=6):
     """Roll a dice with specified number of sides.
     
     Args:
-        sides (int): Number of sides on the dice (default 6)
+        sides (int): Number of sides on the dice (default: 6)
     
     Returns:
         int: Random integer between 1 and sides (inclusive)
@@ -48,7 +48,7 @@ def calculate_pi(terms=1000):
     """Estimate the value of pi using the Leibniz formula.
     
     Args:
-        terms (int): Number of terms to use in the approximation (default 1000)
+        terms (int): Number of terms to use in the approximation (default: 1000)
     
     Returns:
         float: Approximation of pi
