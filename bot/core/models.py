@@ -17,12 +17,12 @@ def get_model_instance(config: dict):
             credentials=config.get("credentials", {}),
             additional_params=config.get("additional_params", {}),
         )
-    # elif provider_type == "deepseek":
-    #     return DeepSeekModel(
-    #         model_name=config.get("model_name"),
-    #         temperature=config.get("temperature", 0),
-    #         credentials=config.get("credentials", {}),
-    #     )
+    elif provider_type == "deepseek":
+        return DeepSeekModel(
+            model_name=config.get("model_name"),
+            temperature=config.get("temperature", 0),
+            credentials=config.get("credentials", {}),
+        )
     elif provider_type == "bedrock":
         return get_bedrock_model(config)
     elif provider_type == "huggingface":
