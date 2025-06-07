@@ -26,16 +26,9 @@ def run():
     repo.config_writer().set_value("user", "name", BOT_NAME).release()
     repo.config_writer().set_value("user", "email", BOT_EMAIL).release()
 
-    origin_url = repo.remote("origin").url.rstrip("/")  # Strip trailing slash here
-    if origin_url.startswith("https://github.com/"):
-        if not origin_url.endswith(".git"):
-            origin_url += ".git"
-        token_url = origin_url.replace(
-            "https://github.com/",
-            f"https://x-access-token:{GITHUB_TOKEN}@github.com/"
-        )
-        repo.remote("origin").set_url(token_url)
-        print(f"Remote URL set to: {repo.remote('origin').url}")
+    # Push branch using token auth via HTTPS
+    remote_url = f"https://x-access-token:{GITHUB_TOKEN}@github.com/{GITHUB_REPOSITORY}.git"
+    subprocess.run(["git", "push", remote_url, f"{BRANCH_NAME}:{BRANCH_NAME}", "--force"], check=True)
 
 
     gh = Github(GITHUB_TOKEN)
