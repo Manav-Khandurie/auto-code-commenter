@@ -175,4 +175,4 @@ cython_debug/
 
 # BACKUP FILES
 
-bot/*.bak
+bot/**/*.bak
