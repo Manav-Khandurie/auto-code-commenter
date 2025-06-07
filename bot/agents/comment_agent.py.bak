@@ -1,9 +1,24 @@
 # bot/agents/comment_agent.py
 class CodeCommentAgent:
+    """Agent for generating comments and docstrings for various code types (Python, SQL, Jupyter notebooks)."""
+    
     def __init__(self, llm):
+        """Initialize the comment agent with an LLM instance.
+        
+        Args:
+            llm: Language model instance used for generating comments
+        """
         self.llm = llm
 
     def generate_comment_for_python(self, code: str) -> str:
+        """Generate Python docstrings and comments for the given code.
+        
+        Args:
+            code: Python source code to be commented
+            
+        Returns:
+            str: The original code with added docstrings and comments
+        """
         prompt = f"""
             You are a Python expert. Your task is to insert or update docstrings for all functions, classes, and modules, and add helpful inline comments **only where necessary**—for logic that may be non-obvious or where explanation adds clarity.
 
@@ -34,6 +49,14 @@ class CodeCommentAgent:
         return response
 
     def generate_comment_for_sql(self, code: str) -> str:
+        """Generate SQL comments for the given query.
+        
+        Args:
+            code: SQL query to be commented
+            
+        Returns:
+            str: The original SQL with added comments
+        """
         prompt = f"""
             You are an expert in SQL. Your task is to add comments to the SQL query provided. The comments should explain the purpose of complex queries, joins, subqueries, and any logic that might not be immediately clear. Keep comments concise but informative. 
 
@@ -52,6 +75,14 @@ class CodeCommentAgent:
         return response
     
     def generate_comment_for_ipynb(self, nb_node) -> dict:
+        """Generate comments for all code cells in a Jupyter notebook.
+        
+        Args:
+            nb_node: Jupyter notebook node object
+            
+        Returns:
+            dict: Modified notebook with commented code cells
+        """
         modified_nb = nb_node.copy()
         for cell in modified_nb.cells:
             if cell.cell_type == 'code' and cell.source.strip():  # Only process non-empty code cells
