@@ -24,7 +24,7 @@ jobs:
           persist-credentials: false
 
       - name: Run Code Comment Bot
-        uses: Manav-Khandurie/auto-code-commenter@main
+        uses: Manav-Khandurie/auto-code-commenter@v1.2.0
         with:
           config: "./ai-commenter.yaml"
           src: "bot"
