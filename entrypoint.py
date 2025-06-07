@@ -1,8 +1,8 @@
+from git import Repo
+import subprocess
 import os
 import sys
-import subprocess
 from github import Github
-from git import Repo
 
 def pr_exists(g, repo_name, branch):
     repo = g.get_repo(repo_name)
@@ -17,27 +17,36 @@ def run():
     BRANCH_NAME = os.environ.get("BOT_BRANCH", "auto/comment-update")
     PR_TITLE = os.environ.get("PR_TITLE", "🤖 Add Code Comments")
     PR_BODY = os.environ.get("PR_BODY", "This PR includes auto-generated code comments.")
-
+    
     config_arg = sys.argv[1] if len(sys.argv) > 1 else None
     src_arg = sys.argv[2] if len(sys.argv) > 2 else "."
-     # 🛡️ Mark current repo as safe for Git
+
+    # Safe Git
     subprocess.run(["git", "config", "--global", "--add", "safe.directory", os.getcwd()], check=True)
+
     repo = Repo(".")
+
+    # Auth + identity
     repo.config_writer().set_value("user", "name", BOT_NAME).release()
     repo.config_writer().set_value("user", "email", BOT_EMAIL).release()
 
+    # Set token-based push URL
+    repo_url = f"https://x-access-token:{GITHUB_TOKEN}@github.com/{GITHUB_REPOSITORY}.git"
+    repo.remotes.origin.set_url(repo_url)
+
     gh = Github(GITHUB_TOKEN)
 
-    # Run the actual bot CLI
+    # Run your bot logic
     subprocess.run([
-        "python","-m", "bot.cli",
+        "python", "-m", "bot.cli",
         "--config", config_arg,
         "--src", src_arg
     ], check=True)
+
     repo.git.checkout("-B", BRANCH_NAME)
     repo.git.add(A=True)
     repo.index.commit("🤖 Auto-commented code")
-    repo.remote(name="origin").push(refspec=f"{BRANCH_NAME}:{BRANCH_NAME}", force=True)
+    repo.remotes.origin.push(refspec=f"{BRANCH_NAME}:{BRANCH_NAME}", force=True)
 
     if not pr_exists(gh, GITHUB_REPOSITORY, BRANCH_NAME):
         gh_repo = gh.get_repo(GITHUB_REPOSITORY)
@@ -50,7 +59,6 @@ def run():
         print("✅ Pull request created.")
     else:
         print("✅ PR already exists. Skipping PR creation.")
-
 
 if __name__ == "__main__":
     run()
