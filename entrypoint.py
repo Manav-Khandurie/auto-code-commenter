@@ -26,18 +26,17 @@ def run():
     repo.config_writer().set_value("user", "name", BOT_NAME).release()
     repo.config_writer().set_value("user", "email", BOT_EMAIL).release()
 
-    origin_url = repo.remote("origin").url
+    origin_url = repo.remote("origin").url.rstrip("/")  # Strip trailing slash here
     if origin_url.startswith("https://github.com/"):
-        # Make sure the URL ends with .git
         if not origin_url.endswith(".git"):
             origin_url += ".git"
-        # Use the token in remote URL for auth
         token_url = origin_url.replace(
             "https://github.com/",
             f"https://x-access-token:{GITHUB_TOKEN}@github.com/"
         )
         repo.remote("origin").set_url(token_url)
         print(f"Remote URL set to: {repo.remote('origin').url}")
+
 
     gh = Github(GITHUB_TOKEN)
 
