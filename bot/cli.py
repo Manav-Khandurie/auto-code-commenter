@@ -4,6 +4,10 @@ from bot.pipeline import run_commenting_pipeline
 from bot.utils.config_loader import load_config
 
 def main():
+    """Main entry point for the auto-commenting CLI tool.
+    
+    Parses command line arguments and initiates the commenting pipeline.
+    """
     parser = argparse.ArgumentParser(description="Auto-comment code using LLMs")
     parser.add_argument("--config", help="YAML config file path")
     parser.add_argument("--model", default=None, help="LLM model name fallback")
