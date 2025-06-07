@@ -28,9 +28,16 @@ def run():
 
     origin_url = repo.remote("origin").url
     if origin_url.startswith("https://github.com/"):
-        # Use 'x-access-token' as dummy user, then token for password part
-        token_url = origin_url.replace("https://", f"https://x-access-token:{GITHUB_TOKEN}@")
+        # Make sure the URL ends with .git
+        if not origin_url.endswith(".git"):
+            origin_url += ".git"
+        # Use the token in remote URL for auth
+        token_url = origin_url.replace(
+            "https://github.com/",
+            f"https://x-access-token:{GITHUB_TOKEN}@github.com/"
+        )
         repo.remote("origin").set_url(token_url)
+        print(f"Remote URL set to: {repo.remote('origin').url}")
 
     gh = Github(GITHUB_TOKEN)
 
