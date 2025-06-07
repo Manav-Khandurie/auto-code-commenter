@@ -26,10 +26,10 @@ def run():
     repo.config_writer().set_value("user", "name", BOT_NAME).release()
     repo.config_writer().set_value("user", "email", BOT_EMAIL).release()
 
-    # Fix remote URL to embed token for authentication
     origin_url = repo.remote("origin").url
     if origin_url.startswith("https://github.com/"):
-        token_url = origin_url.replace("https://", f"https://{GITHUB_TOKEN}@")
+        # Use 'x-access-token' as dummy user, then token for password part
+        token_url = origin_url.replace("https://", f"https://x-access-token:{GITHUB_TOKEN}@")
         repo.remote("origin").set_url(token_url)
 
     gh = Github(GITHUB_TOKEN)
