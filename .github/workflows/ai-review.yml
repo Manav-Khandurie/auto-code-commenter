@@ -8,22 +8,13 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-
-      - name: Debug container contents
-        run: |
-          ls -la 
-          
       - name: Run AI Code Review Agent
-        uses: Manav-Khandurie/agents/code-review-agent@code-review-agent-v1.0.3  #LATEST VERSION with tag
+        uses: Manav-Khandurie/agents/code-review-agent@code-review-agent-v1.1.0
         with:
           config-path: "./ai-review.yaml"
           score-threshold: 85
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-      
-      - name: Debug container contents
-        run: |
-          ls -la 
       
       - name: Upload code review result as artifact
         uses: actions/upload-artifact@v4
