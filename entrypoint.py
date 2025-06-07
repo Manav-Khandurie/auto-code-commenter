@@ -20,7 +20,8 @@ def run():
 
     config_arg = sys.argv[1] if len(sys.argv) > 1 else None
     src_arg = sys.argv[2] if len(sys.argv) > 2 else "."
-
+     # 🛡️ Mark current repo as safe for Git
+    subprocess.run(["git", "config", "--global", "--add", "safe.directory", os.getcwd()], check=True)
     repo = Repo(".")
     repo.config_writer().set_value("user", "name", BOT_NAME).release()
     repo.config_writer().set_value("user", "email", BOT_EMAIL).release()
