@@ -3,7 +3,7 @@ description: "A GitHub Action to auto-generate PRs with code comments using a Py
 author: "Manav-Khandurie manavkhandurie@gmail.com"
 runs:
   using: "docker"
-  image: "Dockerfile"
+  image: "docker://manavkhandurie/auto-code-commenter:v1.1.0"
   args:
     - ${{ inputs.config }}
     - ${{ inputs.src }}
