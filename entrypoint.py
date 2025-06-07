@@ -33,27 +33,23 @@ def run():
         "--config", config_arg,
         "--src", src_arg
     ], check=True)
-    diff_index = repo.git.diff('HEAD')
-    untracked_files = repo.untracked_files
-    if diff_index or untracked_files:
-        repo.git.checkout("-B", BRANCH_NAME)
-        repo.git.add(A=True)
-        repo.index.commit("🤖 Auto-commented code")
-        repo.remote(name="origin").push(refspec=f"{BRANCH_NAME}:{BRANCH_NAME}", force=True)
+    repo.git.checkout("-B", BRANCH_NAME)
+    repo.git.add(A=True)
+    repo.index.commit("🤖 Auto-commented code")
+    repo.remote(name="origin").push(refspec=f"{BRANCH_NAME}:{BRANCH_NAME}", force=True)
 
-        if not pr_exists(gh, GITHUB_REPOSITORY, BRANCH_NAME):
-            gh_repo = gh.get_repo(GITHUB_REPOSITORY)
-            gh_repo.create_pull(
-                title=PR_TITLE,
-                body=PR_BODY,
-                head=BRANCH_NAME,
-                base="main"
-            )
-            print("✅ Pull request created.")
-        else:
-            print("✅ PR already exists. Skipping PR creation.")
+    if not pr_exists(gh, GITHUB_REPOSITORY, BRANCH_NAME):
+        gh_repo = gh.get_repo(GITHUB_REPOSITORY)
+        gh_repo.create_pull(
+            title=PR_TITLE,
+            body=PR_BODY,
+            head=BRANCH_NAME,
+            base="main"
+        )
+        print("✅ Pull request created.")
     else:
-        print("✅ No code changes detected. Skipping commit/PR.")
+        print("✅ PR already exists. Skipping PR creation.")
+
 
 if __name__ == "__main__":
     run()
