@@ -50,6 +50,7 @@ def run():
     # Push changes using the token in remote URL for authentication
     token_url = f"https://x-access-token:{GITHUB_TOKEN}@github.com/{GITHUB_REPOSITORY}.git"
     print(f"Pushing to remote using token URL: {token_url}")
+    
 
     # Force push to the branch
     subprocess.run(["git", "push", token_url, f"{BRANCH_NAME}:{BRANCH_NAME}", "--force"], check=True)
