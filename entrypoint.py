@@ -33,8 +33,9 @@ def run():
         "--config", config_arg,
         "--src", src_arg
     ], check=True)
-
-    if repo.is_dirty(untracked_files=True):
+    diff_index = repo.git.diff('HEAD')
+    untracked_files = repo.untracked_files
+    if diff_index or untracked_files:
         repo.git.checkout("-B", BRANCH_NAME)
         repo.git.add(A=True)
         repo.index.commit("🤖 Auto-commented code")

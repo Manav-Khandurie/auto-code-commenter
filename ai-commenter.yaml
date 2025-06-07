@@ -1,7 +1,7 @@
 model:
   provider:
-    type: openai
-  model_name: gpt-4o-mini
+    type: deepseek
+  model_name: deepseek-chat
   credentials:
-    api_key: ${OPENAI_API_KEY}
+    api_key: ${DEEPSEEK_API_KEY}
     api_base: https://api.deepseek.com/v1
