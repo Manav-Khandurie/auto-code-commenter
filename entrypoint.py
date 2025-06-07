@@ -28,6 +28,7 @@ def run():
     gh = Github(GITHUB_TOKEN)
     if pr_exists(gh, GITHUB_REPOSITORY, BRANCH_NAME):
         print("✅ PR already exists. Skipping PR creation.")
+        exit(0)
     # Setup git user info for commits
     subprocess.run(["git", "config", "user.name", BOT_NAME], check=True)
     subprocess.run(["git", "config", "user.email", BOT_EMAIL], check=True)
