@@ -26,9 +26,6 @@ def run():
     repo.config_writer().set_value("user", "name", BOT_NAME).release()
     repo.config_writer().set_value("user", "email", BOT_EMAIL).release()
 
-    # Push branch using token auth via HTTPS
-    remote_url = f"https://x-access-token:{GITHUB_TOKEN}@github.com/{GITHUB_REPOSITORY}.git"
-    subprocess.run(["git", "push", remote_url, f"{BRANCH_NAME}:{BRANCH_NAME}", "--force"], check=True)
 
 
     gh = Github(GITHUB_TOKEN)
@@ -45,6 +42,9 @@ def run():
 
     # Push with token-authenticated remote
     repo.remote(name="origin").push(refspec=f"{BRANCH_NAME}:{BRANCH_NAME}", force=True)
+    # # Push branch using token auth via HTTPS
+    # remote_url = f"https://x-access-token:{GITHUB_TOKEN}@github.com/{GITHUB_REPOSITORY}.git"
+    # subprocess.run(["git", "push", remote_url, f"{BRANCH_NAME}:{BRANCH_NAME}", "--force"], check=True)
 
     if not pr_exists(gh, GITHUB_REPOSITORY, BRANCH_NAME):
         gh_repo = gh.get_repo(GITHUB_REPOSITORY)
