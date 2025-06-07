@@ -10,7 +10,6 @@ def pr_exists(g, repo_name, branch):
     return pulls.totalCount > 0
 
 def run():
-    # 🛡️ Mark current repo as safe for Git
     subprocess.run(["git", "config", "--global", "--add", "safe.directory", os.getcwd()], check=True)
     GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
     GITHUB_REPOSITORY = os.environ["GITHUB_REPOSITORY"]
@@ -27,17 +26,25 @@ def run():
     repo.config_writer().set_value("user", "name", BOT_NAME).release()
     repo.config_writer().set_value("user", "email", BOT_EMAIL).release()
 
+    # Fix remote URL to embed token for authentication
+    origin_url = repo.remote("origin").url
+    if origin_url.startswith("https://github.com/"):
+        token_url = origin_url.replace("https://", f"https://{GITHUB_TOKEN}@")
+        repo.remote("origin").set_url(token_url)
+
     gh = Github(GITHUB_TOKEN)
 
-    # Run the actual bot CLI
     subprocess.run([
         "python","-m", "bot.cli",
         "--config", config_arg,
         "--src", src_arg
     ], check=True)
+
     repo.git.checkout("-B", BRANCH_NAME)
     repo.git.add(A=True)
     repo.index.commit("🤖 Auto-commented code")
+
+    # Push with token-authenticated remote
     repo.remote(name="origin").push(refspec=f"{BRANCH_NAME}:{BRANCH_NAME}", force=True)
 
     if not pr_exists(gh, GITHUB_REPOSITORY, BRANCH_NAME):
