@@ -30,6 +30,6 @@ jobs:
         uses: Manav-Khandurie/auto-code-commenter@main
         with:
           config: "./ai-commenter.yaml"
-          src: "src/sql/"
+          src: "bot"
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
