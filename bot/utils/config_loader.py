@@ -1,4 +1,4 @@
-# app/utils/config_loader.py
+# bot/utils/config_loader.py
 import os
 import yaml
 import re

@@ -1,4 +1,4 @@
-# app/core/models_deepseek.py
+# bot/core/models_deepseek.py
 import os
 from langchain_openai import ChatOpenAI
 

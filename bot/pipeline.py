@@ -1,8 +1,8 @@
-# app/pipeline.py
+# bot/pipeline.py
 
-from app.agents.comment_agent import CodeCommentAgent
-from app.utils.file_handler import walk_code_files, read_code, write_code
-from app.core.models import get_model_instance
+from bot.agents.comment_agent import CodeCommentAgent
+from bot.utils.file_handler import walk_code_files, read_code, write_code
+from bot.core.models import get_model_instance
 import nbformat
 import os
 

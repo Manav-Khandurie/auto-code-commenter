@@ -1,4 +1,4 @@
-# app/agents/comment_agent.py
+# bot/agents/comment_agent.py
 class CodeCommentAgent:
     def __init__(self, llm):
         self.llm = llm

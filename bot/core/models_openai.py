@@ -1,4 +1,4 @@
-# app/core/models_openai.py
+# bot/core/models_openai.py
 import os
 from langchain_openai import ChatOpenAI
 

@@ -1,7 +1,7 @@
-# app/cli.py
+# bot/cli.py
 import argparse
-from app.pipeline import run_commenting_pipeline
-from app.utils.config_loader import load_config
+from bot.pipeline import run_commenting_pipeline
+from bot.utils.config_loader import load_config
 
 def main():
     parser = argparse.ArgumentParser(description="Auto-comment code using LLMs")

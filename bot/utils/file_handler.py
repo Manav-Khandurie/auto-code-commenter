@@ -1,4 +1,4 @@
-# app/utils/file_handler.py
+# bot/utils/file_handler.py
 import os
 import json
 def walk_code_files(src_folder):

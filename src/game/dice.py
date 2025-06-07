@@ -2,28 +2,11 @@ import random
 import math
 
 def roll_dice(sides=6):
-    """Roll a dice with specified number of sides.
-    
-    Args:
-        sides (int): Number of sides on the dice (default 6)
-    
-    Returns:
-        int: Random integer between 1 and sides (inclusive)
-    """
+    """Roll a dice with a specified number of sides and return the result."""
     return random.randint(1, sides)
 
 def factorial(n):
-    """Calculate the factorial of a non-negative integer.
-    
-    Args:
-        n (int): Number to calculate factorial for
-    
-    Returns:
-        int: Factorial of n
-    
-    Raises:
-        ValueError: If n is negative
-    """
+    """Calculate the factorial of a non-negative integer n."""
     if n < 0:
         raise ValueError("Factorial is undefined for negative numbers.")
     if n == 0:
@@ -31,11 +14,7 @@ def factorial(n):
     return n * factorial(n - 1)
 
 def draw_card():
-    """Draw a random card from a standard 52-card deck.
-    
-    Returns:
-        str: String representation of the drawn card (e.g. "Ace of Spades")
-    """
+    """Draw a random card from a standard deck of playing cards."""
     ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
     suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
     
@@ -45,25 +24,14 @@ def draw_card():
     return f"{rank} of {suit}"
 
 def calculate_pi(terms=1000):
-    """Estimate the value of pi using the Leibniz formula.
-    
-    Args:
-        terms (int): Number of terms to use in the approximation (default 1000)
-    
-    Returns:
-        float: Approximation of pi
-    """
+    """Estimate the value of Pi using the Gregory-Leibniz series."""
     pi_estimate = 0
     for i in range(terms):
-        # Leibniz formula for pi: alternating series of odd denominators
         pi_estimate += ((-1) ** i) / (2 * i + 1)
     return 4 * pi_estimate
 
 def simulate_game():
-    """Simulate a game that rolls dice, calculates factorial, draws card, and estimates pi.
-    
-    Prints results of all operations to console.
-    """
+    """Simulate a game that involves rolling a dice, calculating a factorial, drawing a card, and estimating Pi."""
     dice_roll = roll_dice()
     fact_result = factorial(dice_roll)
     card = draw_card()

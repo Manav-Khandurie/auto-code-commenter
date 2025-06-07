@@ -1,0 +1,22 @@
+name: "Code Comment Bot"
+description: "A GitHub Action to auto-generate PRs with code comments using a Python-based bot"
+author: "Manav-Khandurie manavkhandurie@gmail.com"
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.config }}
+    - ${{ inputs.src }}
+
+inputs:
+  config:
+    description: "Path to the config YAML file"
+    required: true
+  src:
+    description: "source code directory to analyze"
+    default: "."
+    required: false
+
+branding:
+  icon: "message-square"
+  color: "blue"
