@@ -7,7 +7,14 @@ import nbformat
 import os
 
 def extract_code_from_ipynb(filepath: str) -> str:
-    """Extract code from code cells in a Jupyter notebook."""
+    """Extract code from code cells in a Jupyter notebook.
+    
+    Args:
+        filepath: Path to the Jupyter notebook file
+        
+    Returns:
+        str: Concatenated code from all code cells in the notebook
+    """
     try:
         with open(filepath, 'r', encoding='utf-8') as f:
             nb = nbformat.read(f, as_version=4)
@@ -19,7 +26,14 @@ def extract_code_from_ipynb(filepath: str) -> str:
         return ""
 
 def load_notebook(filepath: str):
-    """Loads a notebook and returns the nbformat.NotebookNode object."""
+    """Loads a notebook and returns the nbformat.NotebookNode object.
+    
+    Args:
+        filepath: Path to the Jupyter notebook file
+        
+    Returns:
+        nbformat.NotebookNode: The notebook object or None if loading fails
+    """
     try:
         with open(filepath, 'r', encoding='utf-8') as f:
             return nbformat.read(f, as_version=4)
@@ -28,7 +42,12 @@ def load_notebook(filepath: str):
         return None
 
 def write_notebook(filepath: str, notebook_node):
-    """Writes a notebook node back to file."""
+    """Writes a notebook node back to file.
+    
+    Args:
+        filepath: Path where the notebook should be saved
+        notebook_node: The notebook object to write
+    """
     try:
         with open(filepath, 'w', encoding='utf-8') as f:
             nbformat.write(notebook_node, f)
@@ -36,6 +55,16 @@ def write_notebook(filepath: str, notebook_node):
         print(f"❌ Failed to write notebook {filepath}: {e}")
 
 def run_commenting_pipeline(config=None, model_name: str = "deepseek-chat", src_folder: str = "./src"):
+    """Main pipeline for generating and adding code comments.
+    
+    Processes all code files in the specified directory, adding comments using the specified model.
+    Handles Python files, SQL files, and Jupyter notebooks.
+    
+    Args:
+        config: Optional configuration dictionary
+        model_name: Name of the model to use for comment generation
+        src_folder: Root directory containing source files to process
+    """
     if config:
         project_cfg = config.get("project", {})
         include = project_cfg.get("include", [])
@@ -83,7 +112,7 @@ def run_commenting_pipeline(config=None, model_name: str = "deepseek-chat", src_
             continue
 
         print("----- begin updated snippet -----")
-        print(updated[:200])
+        print(updated[:200])  # Show first 200 chars of updated code as preview
         print("-----  end updated snippet  ------")
 
         write_code(filepath, updated)
