@@ -10,6 +10,8 @@ def pr_exists(g, repo_name, branch):
     return pulls.totalCount > 0
 
 def run():
+    # 🛡️ Mark current repo as safe for Git
+    subprocess.run(["git", "config", "--global", "--add", "safe.directory", os.getcwd()], check=True)
     GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
     GITHUB_REPOSITORY = os.environ["GITHUB_REPOSITORY"]
     BOT_NAME = os.environ.get("BOT_NAME", "code-comment-bot")
