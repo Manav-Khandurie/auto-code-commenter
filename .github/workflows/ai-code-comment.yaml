@@ -26,7 +26,6 @@ jobs:
       - name: Run Code Comment Bot
         uses: Manav-Khandurie/auto-code-commenter@main
         with:
-          config: "./ai-commenter.yaml"
           src: "src/game/"
           provider: "deepseek"
           model_name: "deepseek-chat"
