@@ -41,8 +41,8 @@ def write_code(filepath, content):
         filepath: Path to the file to write
         content: Content to write (string for .py/.sql, dict for .ipynb)
     """
-    backup_path = filepath + ".bak"
-    os.rename(filepath, backup_path)
+    # backup_path = filepath + ".bak"
+    # os.rename(filepath, backup_path)
     if filepath.endswith(".ipynb"):
         import json
         with open(filepath, 'w', encoding='utf-8') as f:
