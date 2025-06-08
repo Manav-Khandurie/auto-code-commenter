@@ -27,6 +27,7 @@ def calculate_pi(terms=1000):
     """Estimate the value of Pi using the Gregory-Leibniz series."""
     pi_estimate = 0
     for i in range(terms):
+        # Alternate between adding and subtracting terms in the series
         pi_estimate += ((-1) ** i) / (2 * i + 1)
     return 4 * pi_estimate
 
