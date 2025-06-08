@@ -29,7 +29,5 @@ jobs:
           src: "src/game/"
           provider: "deepseek"
           model_name: "deepseek-chat"
-          api_key: ${DEEPSEEK_API_KEY}
+          api_key: ${{ secrets.DEEPSEEK_API_KEY }}
           api_base: "https://api.deepseek.com/v1"
-        env:
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}

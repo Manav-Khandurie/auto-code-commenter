@@ -1,3 +1,4 @@
+# action.yml
 name: "Code Comment Bot"
 description: "A GitHub Action to auto-generate PRs with code comments using a Python-based bot"
 author: "Manav-Khandurie manavkhandurie@gmail.com"
