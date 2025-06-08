@@ -2,58 +2,47 @@ name: "Code Comment Bot"
 description: "A GitHub Action to auto-generate PRs with code comments using a Python-based bot"
 author: "Manav-Khandurie manavkhandurie@gmail.com"
 
-inputs:
-  config:
-    description: "Path to the config YAML file (optional)"
-    required: false
-  src:
-    description: "Source code directory to analyze"
-    default: "."
-    required: false
-  provider:
-    description: "LLM provider (e.g. deepseek, openai, bedrock)"
-    required: false
-  model_name:
-    description: "Model name to use"
-    required: false
-  region:
-    description: "Region (required for Bedrock)"
-    required: false
-  api_key:
-    description: "API key (OpenAI/DeepSeek)"
-    required: false
-  api_base:
-    description: "Custom API base URL (DeepSeek)"
-    required: false
-  aws_access_key_id:
-    description: "AWS Access Key ID (for Bedrock)"
-    required: false
-  aws_secret_access_key:
-    description: "AWS Secret Access Key (for Bedrock)"
-    required: false
-
 runs:
   using: "docker"
   image: "Dockerfile"
   args:
-    - "--config"
-    - "${{ inputs.config }}"
-    - "--src"
-    - "${{ inputs.src }}"
-    - "--provider"
-    - "${{ inputs.provider }}"
-    - "--model_name"
-    - "${{ inputs.model_name }}"
-    - "--region"
-    - "${{ inputs.region }}"
-    - "--api_key"
-    - "${{ inputs.api_key }}"
-    - "--api_base"
-    - "${{ inputs.api_base }}"
-    - "--aws_access_key_id"
-    - "${{ inputs.aws_access_key_id }}"
-    - "--aws_secret_access_key"
-    - "${{ inputs.aws_secret_access_key }}"
+    - "--config=${{ inputs.config }}"
+    - "--src=${{ inputs.src }}"
+    - "--provider=${{ inputs.provider }}"
+    - "--model_name=${{ inputs.model_name }}"
+    - "--region=${{ inputs.region }}"
+    - "--api_key=${{ inputs.api_key }}"
+    - "--api_base=${{ inputs.api_base }}"
+    - "--aws_access_key_id=${{ inputs.aws_access_key_id }}"
+    - "--aws_secret_access_key=${{ inputs.aws_secret_access_key }}"
+
+inputs:
+  config:
+    description: "Path to the config YAML file"
+    required: false
+  src:
+    description: "source code directory to analyze"
+    default: "."
+    required: false
+  provider:
+    required: false
+    description: "LLM provider"
+  model_name:
+    required: false
+    description: "Model name"
+  region:
+    required: false
+    description: "AWS region (for bedrock)"
+  api_key:
+    required: false
+    description: "API key for OpenAI/DeepSeek"
+  api_base:
+    required: false
+    description: "API base URL for DeepSeek"
+  aws_access_key_id:
+    required: false
+  aws_secret_access_key:
+    required: false
 
 branding:
   icon: "message-square"
