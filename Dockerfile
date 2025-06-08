@@ -10,7 +10,7 @@ RUN pip install --upgrade pip
 RUN pip install poetry poetry-plugin-export
 
 # Export only production dependencies (no dev, no hashes)
-RUNpoetry export --without-hashes --without dev -f require ments.txt -o requirements.txt && cat requirements.txt 
+RUN poetry export --without-hashes --without dev -f requirements.txt -o requirements.txt && cat requirements.txt 
  
 RUN pip install -r requirements.txt
 
