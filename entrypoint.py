@@ -31,7 +31,7 @@ def run():
     src_paths = os.environ.get("SRC", ".").split()
     if src_paths:
         args.append("--src")
-        args.extend(os.environ.get("SRC", "."))
+        args.extend(src_paths)
 
     append_flag("provider", os.environ.get("PROVIDER"))
     append_flag("model_name", os.environ.get("MODEL_NAME"))
