@@ -1,5 +1,4 @@
 import os
-import sys
 import subprocess
 from github import Github
 
@@ -27,10 +26,8 @@ def run():
         if value:
             args.extend([f"--{name}", value])
 
-    # Config file or individual model params
     append_flag("config", os.environ.get("CONFIG"))
     append_flag("src", os.environ.get("SRC", "."))
-
     append_flag("provider", os.environ.get("PROVIDER"))
     append_flag("model_name", os.environ.get("MODEL_NAME"))
     append_flag("region", os.environ.get("REGION"))
@@ -53,22 +50,26 @@ def run():
     subprocess.run(args, check=True)
     print("✅ Done Executing CLI:", " ".join(args))
 
-    # Create / reset branch and commit
+    # Create/reset branch and stage changes
     subprocess.run(["git", "checkout", "-B", BRANCH_NAME], check=True)
     subprocess.run(["git", "add", "-A"], check=True)
-    try:
+
+    # Check if any changes are staged
+    status = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True)
+
+    if status.stdout.strip():
         subprocess.run(["git", "commit", "-m", "🤖 Auto-commented code"], check=True)
-    except subprocess.CalledProcessError:
-        print("⚠️ No changes to commit.")
 
-    # Push changes
-    token_url = f"https://x-access-token:{GITHUB_TOKEN}@github.com/{GITHUB_REPOSITORY}.git"
-    subprocess.run(["git", "push", token_url, f"{BRANCH_NAME}:{BRANCH_NAME}", "--force"], check=True)
+        # Push changes
+        token_url = f"https://x-access-token:{GITHUB_TOKEN}@github.com/{GITHUB_REPOSITORY}.git"
+        subprocess.run(["git", "push", token_url, f"{BRANCH_NAME}:{BRANCH_NAME}", "--force"], check=True)
 
-    # Create pull request
-    repo = gh.get_repo(GITHUB_REPOSITORY)
-    pr = repo.create_pull(title=PR_TITLE, body=PR_BODY, head=BRANCH_NAME, base="main")
-    print(f"✅ Pull request created: {pr.html_url}")
+        # Create pull request
+        repo = gh.get_repo(GITHUB_REPOSITORY)
+        pr = repo.create_pull(title=PR_TITLE, body=PR_BODY, head=BRANCH_NAME, base="main")
+        print(f"✅ Pull request created: {pr.html_url}")
+    else:
+        print("⚠️ No changes detected. Skipping commit, push, and PR creation.")
 
 if __name__ == "__main__":
     run()
