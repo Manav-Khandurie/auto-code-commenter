@@ -29,6 +29,9 @@ def run():
     append_flag("config", os.environ.get("CONFIG"))
     # Properly handle multiple src paths (split on space)
     src_paths = os.environ.get("SRC", ".").split()
+    print("*********************************")
+    print(src_paths)
+    print("*********************************")
     for path in src_paths:
         print(src_paths+" <------------>"+path)
         args.extend(["--src", path])
