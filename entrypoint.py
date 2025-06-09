@@ -30,6 +30,7 @@ def run():
     # Properly handle multiple src paths (split on space)
     src_paths = os.environ.get("SRC", ".").split()
     for path in src_paths:
+        print(src_paths+" <------------>"+path)
         args.extend(["--src", path])
     append_flag("provider", os.environ.get("PROVIDER"))
     append_flag("model_name", os.environ.get("MODEL_NAME"))
