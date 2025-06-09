@@ -19,7 +19,11 @@ def main():
     parser.add_argument("--aws_access_key_id", help="AWS Access Key ID (for Bedrock)")
     parser.add_argument("--aws_secret_access_key", help="AWS Secret Access Key (for Bedrock)")
 
-    parser.add_argument("--src", default="./src", help="Source code folder")
+        # bot/cli.py
+    parser.add_argument(
+        "--src", nargs="+", default=["./src"], help="Source code folder(s). Space-separated."
+    )
+
 
     args = parser.parse_args()
 

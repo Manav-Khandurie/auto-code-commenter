@@ -47,5 +47,6 @@ def write_code(filepath, content):
         import json
         with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(content, f, indent=2)
-    with open(filepath, 'w') as f:
-        f.write(content)
+    else:
+        with open(filepath, 'w') as f:
+            f.write(content)

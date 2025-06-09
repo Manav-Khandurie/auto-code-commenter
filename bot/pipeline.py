@@ -54,7 +54,7 @@ def write_notebook(filepath: str, notebook_node):
     except Exception as e:
         print(f"❌ Failed to write notebook {filepath}: {e}")
 
-def run_commenting_pipeline(config=None, model_name: str = "deepseek-chat", src_folder: str = "./src"):
+def run_commenting_pipeline(config=None, model_name: str = "deepseek-chat", src_folder: list[str] = ["./src"]):
     """Main pipeline for generating and adding code comments.
     
     Processes all code files in the specified directory, adding comments using the specified model.
@@ -73,47 +73,49 @@ def run_commenting_pipeline(config=None, model_name: str = "deepseek-chat", src_
         model_cfg = config.get("model", {})
         model = get_model_instance(model_cfg)
         if include:
-            src_folder = include[0]
+            src_folder = include
     else:
         model = get_model_instance({
             "provider": {"type": "deepseek"},
             "model_name": model_name,
         })
+        file_types = [".py", ".sql", ".ipynb"]
+        exclude = []
 
     agent = CodeCommentAgent(model)
-
-    for filepath in walk_code_files(src_folder):
-        if file_types and not any(filepath.endswith(ext) for ext in file_types):
-            continue
-
-        print(f"[...] Commenting: {filepath}")
-
-        if filepath.endswith(".ipynb"):
-            nb_node = load_notebook(filepath)
-            if not nb_node:
-                print(f"⚠️  Could not load notebook {filepath}, skipping.")
+    for folder in src_folder:
+        for filepath in walk_code_files(folder):
+            if file_types and not any(filepath.endswith(ext) for ext in file_types):
                 continue
-            updated_nb = agent.generate_comment_for_ipynb(nb_node)
-            write_notebook(filepath, updated_nb)
+
+            print(f"[...] Commenting: {filepath}")
+
+            if filepath.endswith(".ipynb"):
+                nb_node = load_notebook(filepath)
+                if not nb_node:
+                    print(f"⚠️  Could not load notebook {filepath}, skipping.")
+                    continue
+                updated_nb = agent.generate_comment_for_ipynb(nb_node)
+                write_notebook(filepath, updated_nb)
+                print(f"[✔] Updated: {filepath}")
+                continue  # Skip rest of loop
+
+            original = read_code(filepath)
+            if not original.strip():
+                print(f"⚠️  {filepath} is empty or could not be read, skipping.")
+                continue
+
+            if filepath.endswith(".py"):
+                updated = agent.generate_comment_for_python(original)
+            elif filepath.endswith(".sql"):
+                updated = agent.generate_comment_for_sql(original)
+            else:
+                print(f"⚠️  Skipping unsupported file {filepath}")
+                continue
+
+            print("----- begin updated snippet -----")
+            print(updated[:200])  # Show first 200 chars of updated code as preview
+            print("-----  end updated snippet  ------")
+
+            write_code(filepath, updated)
             print(f"[✔] Updated: {filepath}")
-            continue  # Skip rest of loop
-
-        original = read_code(filepath)
-        if not original.strip():
-            print(f"⚠️  {filepath} is empty or could not be read, skipping.")
-            continue
-
-        if filepath.endswith(".py"):
-            updated = agent.generate_comment_for_python(original)
-        elif filepath.endswith(".sql"):
-            updated = agent.generate_comment_for_sql(original)
-        else:
-            print(f"⚠️  Skipping unsupported file {filepath}")
-            continue
-
-        print("----- begin updated snippet -----")
-        print(updated[:200])  # Show first 200 chars of updated code as preview
-        print("-----  end updated snippet  ------")
-
-        write_code(filepath, updated)
-        print(f"[✔] Updated: {filepath}")

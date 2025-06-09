@@ -19,30 +19,31 @@ class CodeCommentAgent:
         Returns:
             str: The original code with added docstrings and comments
         """
+        
+
         prompt = f"""
-            You are a Python expert. Your task is to insert or update docstrings for all functions, classes, and modules, and add helpful inline comments **only where necessary**—for logic that may be non-obvious or where explanation adds clarity.
+        You are a Python expert code reviewer.
 
-            Do not comment trivial or self-explanatory lines.
-            Do not modify any of the code's logic or structure.
-            Preserve all original code and formatting.
+        Your job is to annotate the given Python source code by:
+        - Inserting or updating docstrings for all functions, classes, and modules.
+        - Adding helpful inline comments only where necessary (for non-obvious logic).
+        - **Never** modifying or uncommenting any code (especially if it is commented out).
+        - **Never** changing any logic, even if it seems broken.
+        - **Never** reformatting large code sections.
+        - Preserve all original indentation, spacing, and comments exactly as-is.
 
-            Return the entire updated Python file as **raw code only**, with:
-            - Proper docstrings for all relevant functions, classes, and modules
-            - Helpful, non-redundant inline comments only where it adds value
-            - No extra explanations
-            - No markdown formatting (e.g. no triple backticks,special symbols/markdowns etc)
-            - No surrounding text — just the complete updated code
+        ⚠️ **Critical Output Rules**:
+        - Return only the **full Python source code** with added docstrings and inline comments.
+        - Do **not** change or uncomment existing `#` comments or commented-out code.
+        - Do **not** output anything except the raw Python code.
+        - Do **not** use Markdown (` ``` ` or `python`), no prose, no explanations.
+        - If the input contains only commented-out code or blank content, return exactly the same input — unchanged.
 
-            Here is the code:
+        Here is the code:
 
-            {code}
+        {code}
 
-            Return the updated code now — as plain Python source code only.
-            REMEMBER IT IS NOT YOUR JOB TO FIX ANYTHING IN CODE EVER, ONLY COMMENTS.
-            RETURN THE FULL CODE. NO MOARKDOWN NOTHING , JUST PLAIN TEXT.
-            Remember ,return the full code & that if there is no python code return blank AND NOTHING ELSE.
-            Return only the complete updated Python source code.
-            Preserve all original code and fix formatting if needs be.
+        🔁 Repeat: Only return the fully annotated Python source code as plain text. No markdown. No explanations. No changes to existing logic or commented code. No blank lines removed. Do not try to fix or uncomment anything. Preserve all existing structure exactly as-is.
         """
 
         response = self.llm.generate(prompt)
@@ -58,19 +59,23 @@ class CodeCommentAgent:
             str: The original SQL with added comments
         """
         prompt = f"""
-            You are an expert in SQL. Your task is to add comments to the SQL query provided. The comments should explain the purpose of complex queries, joins, subqueries, and any logic that might not be immediately clear. Keep comments concise but informative. 
+        You are an expert SQL code annotator.
 
-            Do not comment trivial or self-explanatory SQL statements.
+        Your task is to add **concise and meaningful inline comments** to the given SQL query. Only comment on non-trivial logic such as joins, subqueries, aggregations, filters, or expressions. Do **not** comment on simple SELECTs, FROMs, or aliases unless there is useful context to add.
 
-            Return the updated SQL query with comments. The comments should be inline with the code, right next to the relevant parts of the query. Do **not** add any extra explanations.
+        ❗️**Output Requirements**:
+        - Return the SQL code as plain text only (no Markdown formatting).
+        - Do NOT include code blocks (no triple backticks).
+        - Do NOT add any prose, headings, or explanations before or after the SQL.
+        - Keep all comments inline, using `--` after the relevant line of code.
 
-            Here is the SQL query:
+        Here is the SQL query to annotate:
 
-            {code}
+        {code}
 
-            Return the updated SQL now — as plain SQL source code only.
+        Now return ONLY the annotated SQL query as plain text.
         """
-        
+    
         response = self.llm.generate(prompt)
         return response
     

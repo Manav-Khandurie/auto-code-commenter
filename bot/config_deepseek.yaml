@@ -5,3 +5,11 @@ model:
   credentials:
     api_key: ${DEEPSEEK_API_KEY}
     api_base: https://api.deepseek.com/v1
+
+project:
+  include:
+    - ./src/game
+  file_types:
+    - .py
+    - .sql
+    - .ipynb
