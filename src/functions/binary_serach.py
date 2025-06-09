@@ -1,7 +1,16 @@
 def binary_search(arr, target):
+    """Perform binary search on a sorted array to find the target value.
+    
+    Args:
+        arr: A sorted list of elements to search through.
+        target: The value to search for in the array.
+        
+    Returns:
+        int: Index of the target in the array if found, otherwise -1.
+    """
     left, right = 0, len(arr) - 1
     while left <= right:
-        mid = left + (right - left) // 2
+        mid = left + (right - left) // 2  # Prevents overflow compared to (left+right)//2
         if arr[mid] == target:
             return mid
         elif arr[mid] < target:
