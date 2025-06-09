@@ -51,6 +51,7 @@ def run():
     # Run bot CLI
     print("🚀 Running CLI:", " ".join(args))
     subprocess.run(args, check=True)
+    print("✅ Done Executing CLI:", " ".join(args))
 
     # Create / reset branch and commit
     subprocess.run(["git", "checkout", "-B", BRANCH_NAME], check=True)

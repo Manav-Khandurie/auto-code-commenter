@@ -2,10 +2,10 @@ import random
 import math
 
 def roll_dice(sides=6):
-    """Roll a dice with specified number of sides.
+    """Roll a dice with the specified number of sides.
     
     Args:
-        sides (int): Number of sides on the dice (default 6)
+        sides (int): Number of sides on the dice (default: 6)
     
     Returns:
         int: Random integer between 1 and sides (inclusive)
@@ -34,7 +34,7 @@ def draw_card():
     """Draw a random playing card from a standard 52-card deck.
     
     Returns:
-        str: String representation of the drawn card (e.g. "Queen of Hearts")
+        str: String representation of the drawn card (e.g. "Ace of Spades")
     """
     ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
     suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
@@ -48,25 +48,25 @@ def calculate_pi(terms=1000):
     """Estimate the value of π using the Leibniz formula.
     
     Args:
-        terms (int): Number of terms to use in the approximation (default 1000)
+        terms (int): Number of terms to use in the approximation (default: 1000)
     
     Returns:
         float: Approximation of π
     """
     pi_estimate = 0
     for i in range(terms):
-        # Leibniz formula for π: alternating series of odd denominators
         pi_estimate += ((-1) ** i) / (2 * i + 1)
     return 4 * pi_estimate
 
 def simulate_game():
-    """Simulate a game that combines dice rolling, factorial calculation,
-    card drawing, and π estimation, then prints the results.
+    """Simulate a game that rolls dice, calculates factorial, draws card, and estimates π.
+    
+    Prints results of all operations to console.
     """
-    dice_roll = roll_dice()  # Roll a dice
-    fact_result = factorial(dice_roll)  # Calculate factorial of the dice roll
-    card = draw_card()  # Draw a random card
-    pi_value = calculate_pi()  # Estimate the value of π
+    dice_roll = roll_dice()
+    fact_result = factorial(dice_roll)
+    card = draw_card()
+    pi_value = calculate_pi()
     
     print(f"Dice Roll: {dice_roll}")
     print(f"Factorial of {dice_roll}: {fact_result}")
