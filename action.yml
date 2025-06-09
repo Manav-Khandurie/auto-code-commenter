@@ -5,7 +5,7 @@ author: "Manav-Khandurie manavkhandurie@gmail.com"
 
 runs:
   using: "docker"
-  image: "docker://manavkhandurie/auto-code-commenter:v1.3.0"
+  image: "Dockerfile"
   env:
     API_KEY: ${{ inputs.api_key }}  # <-- 🔥 Add this
     API_BASE: ${{ inputs.api_base }}

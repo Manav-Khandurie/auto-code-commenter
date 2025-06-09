@@ -11,7 +11,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
       - name: Run AI Code Review Agent
-        uses: Manav-Khandurie/agents/code-review-agent@code-review-agent-v1.1.0
+        uses: Manav-Khandurie/agents/code-review-agent@main
         with:
           config-path: "./ai-review.yaml"
           score-threshold: 85
