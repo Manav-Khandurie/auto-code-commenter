@@ -79,6 +79,45 @@ class CodeCommentAgent:
         response = self.llm.generate(prompt)
         return response
     
+    def generate_comment_for_tf(self, code: str) -> str:
+        """Generate Terraform comments for the given code.
+        
+        Args:
+            code: Terraform source code (.tf) to be commented
+            
+        Returns:
+            str: The original Terraform code with added comments
+        """
+        prompt = f"""
+        You are a Terraform (HCL) expert.
+
+        Your job is to annotate the given Terraform (.tf) source code by:
+        - Adding concise, meaningful inline comments above or at the end of lines for non-trivial logic.
+        - Focus on explaining resource purpose, variable usage, data sources, outputs, providers, and any non-obvious configurations.
+        - Do NOT comment on trivial declarations or syntax (e.g., `resource`, `variable`, `provider` unless there is context).
+        - Preserve all original indentation, spacing, and comments exactly as-is.
+        - **Never** change any logic or resource configuration.
+        - **Never** uncomment existing commented-out code.
+        - **Never** reformat the code.
+        - If the file only contains comments or is empty, return it unchanged.
+
+        ⚠️ **Critical Output Rules**:
+        - Return ONLY the full Terraform code with added comments.
+        - Do NOT include Markdown formatting, code fences, or explanations outside of the code.
+        - Comments should use `#` for inline or standalone lines, consistent with HCL conventions.
+        - Keep existing comments untouched.
+
+        Here is the code:
+
+        {code}
+
+        🔁 Repeat: Only return the annotated Terraform source code as plain text. No Markdown. No prose. No formatting changes. No blank lines removed.
+        """
+        
+        response = self.llm.generate(prompt)
+        return response
+
+
     def generate_comment_for_ipynb(self, nb_node) -> dict:
         """Generate comments for all code cells in a Jupyter notebook.
         

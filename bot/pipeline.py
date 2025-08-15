@@ -69,7 +69,7 @@ def run_commenting_pipeline(config=None, model_name: str = "deepseek-chat", src_
         project_cfg = config.get("project", {})
         include = project_cfg.get("include", [])
         exclude = project_cfg.get("exclude", [])
-        file_types = project_cfg.get("file_types", [".py", ".sql", ".ipynb"])
+        file_types = project_cfg.get("file_types", [".py", ".sql", ".ipynb",".tf"])
         model_cfg = config.get("model", {})
         model = get_model_instance(model_cfg)
         if include:
@@ -79,7 +79,7 @@ def run_commenting_pipeline(config=None, model_name: str = "deepseek-chat", src_
             "provider": {"type": "deepseek"},
             "model_name": model_name,
         })
-        file_types = [".py", ".sql", ".ipynb"]
+        file_types = [".py", ".sql", ".ipynb" ,".tf"]
         exclude = []
 
     agent = CodeCommentAgent(model)
@@ -109,6 +109,8 @@ def run_commenting_pipeline(config=None, model_name: str = "deepseek-chat", src_
                 updated = agent.generate_comment_for_python(original)
             elif filepath.endswith(".sql"):
                 updated = agent.generate_comment_for_sql(original)
+            elif filepath.endswith(".tf"):
+                updated = agent.generate_comment_for_tf(original)
             else:
                 print(f"⚠️  Skipping unsupported file {filepath}")
                 continue

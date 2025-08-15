@@ -15,7 +15,7 @@ def walk_code_files(src_folder):
     """
     for root, _, files in os.walk(src_folder):
         for file in files:
-            if file.endswith(".py") or file.endswith(".sql") or file.endswith(".ipynb"):
+            if file.endswith(".py") or file.endswith(".sql") or file.endswith(".ipynb") or file.endswith(".tf"):
                 yield os.path.join(root, file)
 
 def read_code(filepath):
